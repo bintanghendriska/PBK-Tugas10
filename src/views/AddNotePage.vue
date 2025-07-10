@@ -16,35 +16,34 @@
 </template>
 
 <script>
+import { useNoteStore } from "../stores/noteStore";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 export default {
-  name: 'AddNotePage',
-  data() {
-    return {
-      title: '',
-      content: '',
-    };
-  },
-  methods: {
-    submitNote() {
-      if (!this.content.trim()) {
-        alert('Isi catatan tidak boleh kosong!');
+  name: "AddNotePage",
+  setup() {
+    const noteStore = useNoteStore();
+    const title = ref("");
+    const content = ref("");
+    const router = useRouter();
+
+    async function submitNote() {
+      if (!content.value.trim()) {
+        // Bisa tambahkan toast jika ingin
         return;
       }
+      await noteStore.addNote({ title: title.value, content: content.value });
+      title.value = "";
+      content.value = "";
+      router.push({ name: "NoteList" });
+    }
 
-      // Ambil catatan yang sudah ada dari localStorage
-      const existingNotes = JSON.parse(localStorage.getItem('simpleNotes') || '[]');
-      // Tambahkan catatan baru
-      existingNotes.push({ title: this.title, content: this.content });
-      // Simpan kembali ke localStorage
-      localStorage.setItem('simpleNotes', JSON.stringify(existingNotes));
-
-      // Reset form
-      this.title = '';
-      this.content = '';
-
-      // Redirect ke halaman daftar catatan dengan query parameter
-      this.$router.push({ name: 'NoteList', query: { noteAdded: 'true' } });
-    },
+    return {
+      title,
+      content,
+      submitNote,
+    };
   },
 };
 </script>
@@ -53,33 +52,51 @@ export default {
 .note-form {
   max-width: 500px;
   margin: 0 auto;
+  background: var(--color-bg-main);
+  padding: 32px 28px;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(34, 42, 54, 0.1);
+  border: 1px solid var(--color-border);
 }
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   font-weight: bold;
+  color: var(--color-logo);
 }
 .form-group input[type="text"],
 .form-group textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box; /* Important for width 100% */
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  box-sizing: border-box;
+  background: var(--color-footer-bg);
+  color: var(--color-main-text);
+  font-size: 1em;
+  transition: background 0.2s, color 0.2s;
+}
+.form-group input[type="text"]::placeholder,
+.form-group textarea::placeholder {
+  color: var(--color-footer-text);
+  opacity: 1;
 }
 .submit-button {
-  background-color: #42b983;
-  color: white;
-  padding: 10px 20px;
+  background: var(--color-logo);
+  color: #fff;
+  padding: 12px 28px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.1em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(66, 185, 131, 0.08);
+  transition: background 0.2s;
 }
 .submit-button:hover {
-  background-color: #36a46f;
+  background: #2c8c6d;
 }
 </style>
