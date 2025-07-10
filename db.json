@@ -1,0 +1,16 @@
+{
+  "notes": [
+    {
+      "id": "462e",
+      "title": "nama",
+      "content": "Bukan nama"
+    }
+  ],
+  "todos": [
+    {
+      "id": "19a3",
+      "task": "Olahraga",
+      "done": false
+    }
+  ]
+}
