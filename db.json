@@ -1,20 +1,15 @@
 {
   "notes": [
     {
-      "id": 1,
-      "title": "Contoh Catatan",
-      "content": "Ini catatan pertama"
-    },
-    {
       "id": "462e",
       "title": "nama",
-      "content": "nama"
+      "content": "Bukan nama"
     }
   ],
   "todos": [
     {
-      "id": 1,
-      "task": "Contoh todo",
+      "id": "19a3",
+      "task": "Olahraga",
       "done": false
     }
   ]

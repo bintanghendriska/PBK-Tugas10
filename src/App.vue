@@ -2,12 +2,19 @@
   <div :id="'app-container'">
     <header class="app-header">
       <div class="logo">Catatan Bintang</div>
-      <nav class="app-nav">
+      <button class="hamburger" @click="showNav = !showNav" aria-label="Toggle menu">
+        <svg :class="{ open: showNav }" width="32" height="32" viewBox="0 0 32 32">
+          <rect class="bar top" x="6" y="9" width="20" height="3" rx="1.5" />
+          <rect class="bar middle" x="6" y="15" width="20" height="3" rx="1.5" />
+          <rect class="bar bottom" x="6" y="21" width="20" height="3" rx="1.5" />
+        </svg>
+      </button>
+      <nav class="app-nav" :class="{ open: showNav }">
         <router-link to="/">Daftar Catatan</router-link>
         <router-link to="/add-note">Tambah Catatan</router-link>
-        <router-link to="/about">Tentang</router-link>
         <router-link to="/todo">Todo List</router-link>
         <router-link to="/bantuan">Bantuan</router-link>
+        <router-link to="/about">Tentang</router-link>
       </nav>
     </header>
 
@@ -34,12 +41,16 @@ export default {
       currentYear: new Date().getFullYear(),
       toastMessage: "",
       toastType: "info",
+      showNav: false,
     };
   },
   methods: {
     showToast(message, type = "info") {
       this.toastMessage = message;
       this.toastType = type;
+    },
+    closeNav() {
+      this.showNav = false;
     },
   },
   provide() {
@@ -158,18 +169,108 @@ body {
   margin-bottom: 18px;
 }
 
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 12px;
+  z-index: 1200;
+  padding: 0;
+}
+.hamburger svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+  transition: 0.3s;
+}
+.hamburger .bar {
+  fill: var(--color-logo);
+  transition: 0.3s;
+}
+.hamburger svg .bar.top {
+  transform-origin: 16px 10.5px;
+}
+.hamburger svg .bar.bottom {
+  transform-origin: 16px 22.5px;
+}
+.hamburger svg.open .bar.top {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+.hamburger svg.open .bar.middle {
+  opacity: 0;
+}
+.hamburger svg.open .bar.bottom {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+.app-nav {
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.app-nav.open {
+  max-height: 400px;
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (min-width: 901px) {
+  .app-header {
+    flex-direction: row;
+    align-items: center;
+    padding: 22px 36px;
+  }
+  .app-nav {
+    position: static;
+    flex-direction: row;
+    gap: 18px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    max-height: 100px;
+    opacity: 1;
+    pointer-events: auto;
+    transition: none;
+  }
+  .app-nav:not(.open) {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .app-nav.open {
+    max-height: 100px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .app-nav a {
+    display: block;
+    padding: 10px 22px;
+    font-size: 1.08em;
+    border-radius: 8px;
+    margin: 0;
+    border-bottom: none;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.04);
+    transition: background 0.18s, color 0.18s;
+  }
+}
 @media (max-width: 700px) {
   #app-container {
     padding: 0 6px;
   }
   .app-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 14px 10px;
-    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 4px;
+    gap: 0;
   }
   .logo {
-    font-size: 1.2em;
+    font-size: 1.1em;
   }
   .app-nav {
     flex-direction: column;

@@ -235,24 +235,79 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  transition: background 0.2s;
 }
 .modal-content {
-  background: var(--color-bg-main);
+  background: #fff;
   color: var(--color-main-text);
-  padding: 24px 32px;
+  padding: 36px 38px 28px 38px;
+  border-radius: 18px;
+  min-width: 340px;
+  max-width: 96vw;
+  box-shadow: 0 8px 40px rgba(37, 99, 235, 0.13);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: modalIn 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.modal-content h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--color-logo);
+  letter-spacing: 0.5px;
+}
+.modal-content input[type="text"],
+.modal-content textarea {
+  width: 100%;
+  padding: 12px;
   border-radius: 8px;
-  min-width: 320px;
-  box-shadow: 0 4px 24px rgba(34, 42, 54, 0.18);
+  border: 1px solid var(--color-border);
+  font-size: 1.08em;
+  background: #f8fafc;
+  color: var(--color-main-text);
+  margin-bottom: 10px;
+  transition: border 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-content input[type="text"]:focus,
+.modal-content textarea:focus {
+  outline: 2px solid var(--color-logo);
+  border-color: var(--color-logo);
 }
 .modal-actions {
   display: flex;
   gap: 12px;
-  margin-top: 18px;
+  margin-top: 8px;
   justify-content: flex-end;
+}
+.modal-actions button {
+  background: var(--color-logo);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 22px;
+  font-size: 1em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+  transition: background 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-actions button:hover {
+  background: #2563eb;
 }
 </style>
