@@ -53,6 +53,7 @@ describe("Note Store", () => {
     store.notes = [{ id: 1, title: "Existing Note", content: "Content" }];
 
     await store.addNote(newNote);
+    await new Promise(resolve => setTimeout(resolve, 0)); // Wait for async
 
     expect(store.notes).toContain(createdNote);
     expect(store.error).toBe(null);

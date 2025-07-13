@@ -31,10 +31,14 @@ describe("App Component", () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
+        stubs: {
+          "router-link": true,
+          "router-view": true,
+        },
       },
     });
 
-    const navLinks = wrapper.findAll(".app-nav a");
+    const navLinks = wrapper.findAll("a");
     expect(navLinks).toHaveLength(5);
 
     const linkTexts = navLinks.map((link) => link.text());

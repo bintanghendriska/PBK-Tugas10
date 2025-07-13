@@ -53,6 +53,7 @@ describe("Todo Store", () => {
     store.todos = [{ id: 1, task: "Existing Todo", done: false }];
 
     await store.addTodo("New Todo");
+    await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for async
 
     expect(store.todos).toContain(createdTodo);
     expect(store.error).toBe(null);

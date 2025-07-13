@@ -7,22 +7,30 @@ describe("Toast Component", () => {
     vi.useFakeTimers();
   });
 
-  it("renders message correctly", () => {
+  it("renders message correctly", async () => {
     const message = "Test message";
     const wrapper = mount(Toast, {
       props: { message },
     });
 
+    // Trigger the show method to make toast visible
+    await wrapper.vm.show();
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.text()).toContain(message);
   });
 
-  it("applies correct type class", () => {
+  it("applies correct type class", async () => {
     const wrapper = mount(Toast, {
       props: {
         message: "Test message",
         type: "success",
       },
     });
+
+    // Trigger the show method to make toast visible
+    await wrapper.vm.show();
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.classes()).toContain("success");
   });
@@ -45,12 +53,14 @@ describe("Toast Component", () => {
     expect(wrapper.emitted("dismiss")).toBeTruthy();
   });
 
-  it("clears timer on component destroy", () => {
+  it("clears timer on component destroy", async () => {
     const clearTimeoutSpy = vi.spyOn(global, "clearTimeout");
     const wrapper = mount(Toast, {
       props: { message: "Test message" },
     });
 
+    // Trigger show to create a timer
+    await wrapper.vm.show();
     wrapper.unmount();
 
     expect(clearTimeoutSpy).toHaveBeenCalled();
